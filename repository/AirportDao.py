@@ -55,9 +55,11 @@ class AirportDao(RepositoryInterface):
             c.execute('select * from Airport where code=' + str(entity.code))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Airport values(' + str(entity.name)+','+ str(entity.cityId)+')')
+                c.execute("insert into Airport values('" + str(entity.name)+"',"+ str(entity.cityId)+')')
+                c.commit()
             else :
-                c.execute('update Airport set name=' +str(entity.name)+', cityId='+ str(entity.cityId)+' where code='+ str(entity.code))
+                c.execute("update Airport set name='" +str(entity.name)+"', cityId="+ str(entity.cityId)+" where code="+ str(entity.code))
+                c.commit()
             return Airport(entity.code, entity.name, entity.cityId)
         except:
             print("There was an error")

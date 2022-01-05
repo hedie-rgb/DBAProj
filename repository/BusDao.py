@@ -56,8 +56,10 @@ class BusDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into Bus values(' + str(entity.TransportNumber)+',' +str(entity.BusOriginTerminalId)+','+ str(entity.BusDestinationTerminalId)+')')
+                c.commit()
             else :
                 c.execute('update Bus set BusOriginTerminalId=' +str(entity.BusOriginTerminalId)+', BusDestinationTerminalId='+ str(entity.BusDestinationTerminalId)+' where TransportNumber='+ str(entity.TransportNumber))
+                c.commit()
             return Bus(entity.TransportNumber, entity.BusOriginTerminalId, entity.BusDestinationTerminalId)
         except:
             print("There was an error")

@@ -56,9 +56,11 @@ class CountryDao(RepositoryInterface):
             c.execute('select * from Country where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Country values(' +str(entity.name)+')')
+                c.execute("insert into Country values(" +"'"+str(entity.name)+"'"+')')
+                c.commit()
             else :
-                c.execute('update Country set name='+str(entity.name)+' where id='+str(entity.id))
+                c.execute("update Country set name="+"'"+str(entity.name)+"'"+" where id="+str(entity.id))
+                c.commit()
             return Country(entity.id, entity.name)
         except:
             print("There was an error")

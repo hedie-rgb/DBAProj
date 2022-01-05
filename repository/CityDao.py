@@ -55,9 +55,11 @@ class CityDao(RepositoryInterface):
             c.execute('select * from City where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into City values(' + str(entity.name)+','+ str(entity.countryId)+')')
+                c.execute("insert into City values('" + str(entity.name)+"',"+ str(entity.countryId)+')')
+                c.commit()
             else :
-                c.execute('update City set name=' +str(entity.name)+', countryId='+ str(entity.countryId)+' where id='+ str(entity.id))
+                c.execute("'update City set name='" +str(entity.name)+"', countryId="+ str(entity.countryId)+' where id='+ str(entity.id))
+                c.commit()
             return City(entity.id, entity.name, entity.countryId)
         except:
             print("There was an error")

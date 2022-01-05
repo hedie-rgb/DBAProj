@@ -1,3 +1,3 @@
 from CountryDao import *
 
-print(CountryDao.findById(2))
+print(CountryDao.save(Country(3, 'Iraq')))

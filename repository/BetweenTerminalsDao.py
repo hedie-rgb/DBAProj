@@ -56,8 +56,10 @@ class BetweenTerminalsDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into between_terminals values(' + str(entity.BusReservationTransportNumber)+',' +str(entity.BuTerminalId)+')')
+                c.commit()
             else :
                 c.execute('update between_terminals set BuTerminalId=' +str(entity.BuTerminalId)+' where BusReservationTransportNumber='+ str(entity.BusReservationTransportNumber))
+                c.commit()
             return BetweenTerminals(entity.BusReservationTransportNumber, entity.BuTerminalId)
         except:
             print("There was an error")

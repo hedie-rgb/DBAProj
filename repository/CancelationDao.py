@@ -55,9 +55,11 @@ class CancelationDao(RepositoryInterface):
             c.execute('select * from Cancelation where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Cancelation values(' + str(entity.rules)+','+ str(entity.userId)+ str(entity.refund)+',' +str(entity.date)+','+ str(entity.time)+ str(entity.transportNumber)+',' +str(entity.hotrlId)+')')
+                c.execute("insert into Cancelation values('" + str(entity.rules)+"',"+ str(entity.userId)+ str(entity.refund)+"'," +str(entity.date)+"','"+ str(entity.time)+"',"+ str(entity.transportNumber)+',' +str(entity.hotrlId)+')')
+                c.commit()
             else :
-                c.execute('update Cancelation set rules=' +str(entity.rules)+', userId='+ str(entity.userId)+', refund='+str(entity.refund)+', date='+ str(entity.date)+ ', time='+str(entity.time)+', transportNumber=' +str(entity.transportNumber)+', hotelId=' +str(entity.hotrlId)+' where id='+ str(entity.id))
+                c.execute("update Cancelation set rules='" +str(entity.rules)+"', userId="+ str(entity.userId)+', refund='+str(entity.refund)+", date='"+ str(entity.date)+ ", time='"+str(entity.time)+"', transportNumber=" +str(entity.transportNumber)+', hotelId=' +str(entity.hotrlId)+' where id='+ str(entity.id))
+                c.commit()
             return Cancelation(entity.id, entity.rules, entity.userId, entity.refund, entity.date, entity.time, entity.transportNumber, entity.hotelId)
         except:
             print("There was an error")
