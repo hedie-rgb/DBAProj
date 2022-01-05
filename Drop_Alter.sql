@@ -293,8 +293,22 @@ ALTER TABLE Transport_Reservation
 ADD CONSTRAINT FK_TransportReservationSeat
 FOREIGN KEY (Seatcode) REFERENCES Seat (code);
 
+ALTER TABLE Transport_Company
+DROP CONSTRAINT  FK_TransportCompanyCompany;
+
+ALTER TABLE Transport_Company
+DROP CONSTRAINT  FK_TransportCompanyTransport;
+
+ALTER TABLE Transport
+ADD Companyid int;
+
+
+ALTER TABLE Transport
+ADD CONSTRAINT FK_TransportComapany
+FOREIGN KEY (Companyid) REFERENCES Company (id);
+
+DROP TABLE IF EXISTS Transport_Company;
+
 EXEC sp_rename 'Seat', 'Ticket';
-
-
 
 
