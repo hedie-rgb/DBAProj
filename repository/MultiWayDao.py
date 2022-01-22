@@ -38,6 +38,7 @@ class MultiWayDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Multi_Way where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,13 +47,15 @@ class MultiWayDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Multi_Way where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
     def save(entity):
         try:
             c=getConn()
-            c.execute('insert into MultiWay values(' +')')
+            c.execute('insert into MultiWay values()')
+            c.commit()
             return MultiWay(entity.id)
         except:
             print("There was an error")

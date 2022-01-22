@@ -38,6 +38,7 @@ class TransactionsDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Transactions where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class TransactionsDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Transactions where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class TransactionsDao(RepositoryInterface):
             c.execute('select * from Transactions where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Transactions values('  +str(entity.amount)+',' +str(entity.type)+','+ str(entity.date)+','+ str(entity.userId)+')')
+                c.execute('insert into Transactions values('  +str(entity.amount)+",'" +str(entity.type)+"','"+ str(entity.date)+"',"+ str(entity.userId)+')')
+                c.commit()
             else :
-                c.execute('uptype Transactions set amount=' +str(entity.amount)+', _type='+ str(entity.type)+', _date='+ str(entity.date)+', Userid='+ str(entity.userId)+' where id='+ str(entity.id))
+                c.execute('uptype Transactions set amount=' +str(entity.amount)+", _type='"+ str(entity.type)+"', _date='"+ str(entity.date)+"', Userid="+ str(entity.userId)+' where id='+ str(entity.id))
+                c.commit()
             return Transactions(entity.id, entity.amount, entity.adult)
         except:
             print("There was an error")

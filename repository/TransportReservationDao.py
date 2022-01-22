@@ -38,6 +38,7 @@ class TransportReservationDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Transport_Reservation where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class TransportReservationDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Transport_Reservation where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,10 +57,12 @@ class TransportReservationDao(RepositoryInterface):
             c.execute('select * from Transport_Reservation where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into TransportReservation values('  +str(entity.rules)+','+ str(entity.adult)+','+ str(entity.child)+','+ str(entity.userId)+','+ str(entity.ticketCode)+')')
+                c.execute("insert into TransportReservation values(' " +str(entity.rules)+"',"+ str(entity.adult)+','+ str(entity.child)+','+ str(entity.userId)+','+ str(entity.ticketCode)+')')
+                c.commit()
             else :
-                c.execute('update TransportReservation set rules=' +str(entity.rules)+', number_of_adult='+ str(entity.adult)+', number_of_children='+ str(entity.child)+', Userid='+ str(entity.userId)+', Ticketcode='+ str(entity.ticketCode)+' where id='+ str(entity.id))
-            return TransportReservation(entity.id, entity.rules, entity.adult)
+                c.execute("update TransportReservation set rules='" +str(entity.rules)+"', number_of_adult="+ str(entity.adult)+', number_of_children='+ str(entity.child)+', Userid='+ str(entity.userId)+', Ticketcode='+ str(entity.ticketCode)+' where id='+ str(entity.id))
+                c.commit()
+            return TransportReservation(entity.id, entity.rules, entity.adult, entity.child, entity.userId, entity.ticketCode)
         except:
             print("There was an error")
             return None

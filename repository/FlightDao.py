@@ -38,6 +38,7 @@ class FlightDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Flight where Transportnumber=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class FlightDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Flight where Transportnumber=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class FlightDao(RepositoryInterface):
             c.execute('select * from Flight where Transportnumber=' + str(entity.transportNumber))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Flight values(' + str(entity.transportNumber)+',' +str(entity.flightClass)+','+ str(entity.allowedBaggage)+','+ str(entity.airportCodeOrigin)+','+ str(entity.airportCodeDestination)+')')
+                c.execute('insert into Flight values(' + str(entity.transportNumber)+",'" +str(entity.flightClass)+','+ str(entity.allowedBaggage)+','+ str(entity.airportCodeOrigin)+','+ str(entity.airportCodeDestination)+')')
+                c.commit()
             else :
-                c.execute('update Flight set Transportnumber=' +str(entity.name)+', class='+ str(entity.flightClass)+', amount_of_allowed_baggage='+ str(entity.allowedBaggage)+', Airportcode_origin='+ str(entity.airportCodeOrigin)+', Airportcode_destination='+ str(entity.airportCodeDestination)+' where Transportnumber='+ str(entity.Transportnumber))
+                c.execute('update Flight set Transportnumber=' +str(entity.name)+", class='"+ str(entity.flightClass)+"', amount_of_allowed_baggage="+ str(entity.allowedBaggage)+', Airportcode_origin='+ str(entity.airportCodeOrigin)+', Airportcode_destination='+ str(entity.airportCodeDestination)+' where Transportnumber='+ str(entity.Transportnumber))
+                c.commit()
             return Flight(entity.Transportnumber, entity.name, entity.cityId)
         except:
             print("There was an error")

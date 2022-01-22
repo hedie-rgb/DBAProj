@@ -7,4 +7,4 @@ def getConn():
                       'Trusted_Connection=yes;')
 
     cursor = conn.cursor()
-    return cursor
+    return 

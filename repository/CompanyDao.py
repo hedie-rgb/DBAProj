@@ -38,6 +38,7 @@ class CompanyDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Company where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class CompanyDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Company where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -56,8 +58,10 @@ class CompanyDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into Company values(' +str(entity.name)+')')
+                c.commit()
             else :
-                c.execute('update Company set name=' +str(entity.name)+' where id='+ str(entity.id))
+                c.execute("update Company set name='" +str(entity.name)+"' where id="+ str(entity.id))
+                c.commit()
             return Company(entity.id, entity.name)
         except:
             print("There was an error")

@@ -39,6 +39,7 @@ class CountryDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Country where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -47,6 +48,7 @@ class CountryDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Country where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -59,7 +61,7 @@ class CountryDao(RepositoryInterface):
                 c.execute("insert into Country values(" +"'"+str(entity.name)+"'"+')')
                 c.commit()
             else :
-                c.execute("update Country set name="+"'"+str(entity.name)+"'"+" where id="+str(entity.id))
+                c.execute("update Country set name='"+str(entity.name)+"' where id="+str(entity.id))
                 c.commit()
             return Country(entity.id, entity.name)
         except:

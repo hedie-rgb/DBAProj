@@ -38,6 +38,7 @@ class PopularityDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Popularity where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class PopularityDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Popularity where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -56,8 +58,10 @@ class PopularityDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into Popularity values(' +str(entity.score)+','+ str(entity.userId)+','+ str(entity.hotelId)+')')
+                c.commit()
             else :
                 c.execute('update Popularity set score=' +str(entity.score)+', UserId='+ str(entity.userId)+', HotelId='+ str(entity.hotelId)+' where id='+ str(entity.id))
+                c.commit()
             return Popularity(entity.id, entity.score, entity.userId, entity.hotelId)
         except:
             print("There was an error")

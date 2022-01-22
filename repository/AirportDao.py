@@ -38,6 +38,7 @@ class AirportDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Airport where code=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class AirportDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Airport where code=' + str(id))
+                   c.commit()
             return True
         except:
             return False

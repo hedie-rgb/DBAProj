@@ -38,6 +38,7 @@ class PopularPlaceDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Popular_Place where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class PopularPlaceDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Popular_Place where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class PopularPlaceDao(RepositoryInterface):
             c.execute('select * from Popular_Place where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Popular_Place values('  +str(entity.name)+','+ str(entity.cityId)+')')
+                c.execute("insert into Popular_Place values('"  +str(entity.name)+"',"+ str(entity.cityId)+')')
+                c.commit()
             else :
-                c.execute('update PopularPlace set name=' +str(entity.name)+', cityId='+ str(entity.cityId)+' where id='+ str(entity.id))
+                c.execute("update PopularPlace set name='" +str(entity.name)+"', cityId="+ str(entity.cityId)+' where id='+ str(entity.id))
+                c.commit()
             return PopularPlace(entity.id, entity.name, entity.cityId)
         except:
             print("There was an error")

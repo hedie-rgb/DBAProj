@@ -38,6 +38,7 @@ class OneWayDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from One_Way where DomesticFlightTransportnumber=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class OneWayDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from One_Way where DomesticFlightTransportnumber=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -53,6 +55,7 @@ class OneWayDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('insert into One_Way values(' + str(entity.DomesticFlightTransportnumber)+ str(entity.OverseasFlightTransportnumber)+')')
+            c.commit()
             return OneWay(entity.FlightTransportnumber, entity.OverseasFlightTransportnumber)
         except:
             print("There was an error")

@@ -38,6 +38,7 @@ class HotelFacilityDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Hotel_Facility where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class HotelFacilityDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Hotel_Facility where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class HotelFacilityDao(RepositoryInterface):
             c.execute('select * from Hotel_Facility where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Hotel_Facility values('  +str(entity.name)+')')
+                c.execute("insert into Hotel_Facility values('"  +str(entity.name)+"')")
+                c.commit()
             else :
-                c.execute('update Hotel_Facility set name=' +str(entity.name)+' where id='+ str(entity.id))
+                c.execute("update Hotel_Facility set name='" +str(entity.name)+"' where id="+ str(entity.id))
+                c.commit()
             return HotelFacility(entity.id, entity.name)
         except:
             print("There was an error")

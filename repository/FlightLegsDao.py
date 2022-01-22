@@ -38,6 +38,7 @@ class FlightLegsDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Flight_Legs where code=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class FlightLegsDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Flight_Legs where code=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -56,8 +58,10 @@ class FlightLegsDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into Flight_Legs values(' + str(entity.duration)+','+ str(entity.overseasFlightTransportNumber)+','+ str(entity.airportCode)+')')
+                c.commit()
             else :
                 c.execute('update FlightLegs set duration=' +str(entity.duration)+', OverseasFlightTransportnumber='+ str(entity.overseasFlightTransportNumber)+', Airportcode='+ str(entity.airportCode)+' where code='+ str(entity.code))
+                c.commit()
             return FlightLegs(entity.code, entity.name, entity.cityId)
         except:
             print("There was an error")

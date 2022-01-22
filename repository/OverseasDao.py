@@ -38,6 +38,7 @@ class OverseasDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Overseas where FlightTransportnumber=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -45,7 +46,8 @@ class OverseasDao(RepositoryInterface):
         try:
             c=getConn()
             for id in ids:
-                   c.execute('delete from Overseas where FlightTransportnumber=' + str(id))
+                    c.execute('delete from Overseas where FlightTransportnumber=' + str(id))
+                    c.commit()
             return True
         except:
             return False
@@ -53,6 +55,7 @@ class OverseasDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('insert into Overseas values(' + str(entity.FlightTransportnumber)+')')
+            c.commit()
             return Overseas(entity.FlightTransportnumber)
         except:
             print("There was an error")

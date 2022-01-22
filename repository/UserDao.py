@@ -38,6 +38,7 @@ class UserDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from _user where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class UserDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from _user where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class UserDao(RepositoryInterface):
             c.execute('select * from _user where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into _user values('  +str(entity.mobile)+',' +str(entity.email)+',' +str(entity.birth)+',' +str(entity.phone)+',' +str(entity.ssn)+','+ str(entity.gender)+','+ str(entity.passno)+','+ str(entity.firstName)+','+ str(entity.lastName)+','+ str(entity.password)+','+ str(entity.balance)+','+ str(entity.registrationDate)+','+ str(entity.accountNumber)+')')
+                c.execute("insert into _user values(' " +str(entity.mobile)+"','" +str(entity.email)+"','" +str(entity.birth)+"','" +str(entity.phone)+"','" +str(entity.ssn)+"','"+ str(entity.gender)+"','"+ str(entity.passno)+"','"+ str(entity.firstName)+"','"+ str(entity.lastName)+"','"+ str(entity.password)+"',"+ str(entity.balance)+",'"+ str(entity.registrationDate)+"','"+ str(entity.accountNumber)+"')")
+                c.commit()
             else :
-                c.execute('update _user set MobileNumber=' +str(entity.mobile)+', email='+ str(entity.email)+', DateOfBirth='+ str(entity.birth)+', TelephoneNumber='+ str(entity.phone)+', SSN='+ str(entity.ssn)+', gender='+ str(entity.gender)+', PassportNumber='+ str(entity.passno)+', first_name='+ str(entity.firstName)+', last_name='+ str(entity.lastName)+', _password='+ str(entity.password)+', balance='+ str(entity.balance)+', registration_date='+ str(entity.registrationDate)+', account_number='+ str(entity.accountNumber)+' where id='+ str(entity.id))
+                c.execute("update _user set MobileNumber='" +str(entity.mobile)+"', email='"+ str(entity.email)+"', DateOfBirth='"+ str(entity.birth)+"', TelephoneNumber='"+ str(entity.phone)+"', SSN='"+ str(entity.ssn)+"', gender='"+ str(entity.gender)+"', PassportNumber='"+ str(entity.passno)+"', first_name='"+ str(entity.firstName)+"', last_name='"+ str(entity.lastName)+"', _password='"+ str(entity.password)+"', balance="+ str(entity.balance)+", registration_date='"+ str(entity.registrationDate)+"', account_number='"+ str(entity.accountNumber)+"' where id="+ str(entity.id))
+                c.commit()
             return User(entity.id, entity.mobile,entity.email, entity.birth, entity.phone,entity.ssn, entity.gender,entity.passno, entity.firstName, entity.lastName, entity.password, entity.balance, entity.registrationDate, entity.accountNumber)
         except:
             print("There was an error")

@@ -38,6 +38,7 @@ class TwoWayDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Two_Way where OverseasFlightTransportnumber1=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class TwoWayDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from TwoWay where OverseasFlightTransportnumber1=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -56,8 +58,10 @@ class TwoWayDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into TwoWay values(' + str(entity.OverseasFlightTransportnumber1)+',' +str(entity.OverseasFlightTransportnumber2)+','+ str(entity.DomesticFlightTransportnumber1)+','+ str(entity.DomesticFlightTransportnumber2)+')')
+                c.commit()
             else :
                 c.execute('update TwoWay set OverseasFlightTransportnumber2=' +str(entity.OverseasFlightTransportnumber2)+', DomesticFlightTransportnumber1='+ str(entity.DomesticFlightTransportnumber1)+', DomesticFlightTransportnumber2='+ str(entity.DomesticFlightTransportnumber2)+' where OverseasFlightTransportnumber1='+ str(entity.OverseasFlightTransportnumber1))
+                c.commit()
             return TwoWay(entity.OverseasFlightTransportnumber1, entity.OverseasFlightTransportnumber2, entity.DomesticFlightTransportnumber1,entity.DomesticFlightTransportnumber2)
         except:
             print("There was an error")

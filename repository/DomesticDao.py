@@ -38,6 +38,7 @@ class DomesticDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Domestic where FlightTransportnumber=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class DomesticDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Domestic where FlightTransportnumber=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -53,6 +55,7 @@ class DomesticDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('insert into Domestic values(' + str(entity.FlightTransportnumber)+')')
+            c.commit()
             return Domestic(entity.FlightTransportnumber)
         except:
             print("There was an error")

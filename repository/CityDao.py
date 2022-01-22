@@ -38,6 +38,7 @@ class CityDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from City where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class CityDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from City where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False

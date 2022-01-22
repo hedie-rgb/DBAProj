@@ -38,6 +38,7 @@ class BusTerminalDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Bus_Terminal where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class BusTerminalDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Bus_Terminal where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False

@@ -38,6 +38,7 @@ class CommentDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from _Comment where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class CommentDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from _Comment where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,10 +57,12 @@ class CommentDao(RepositoryInterface):
             c.execute('select * from _Comment where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into _Comment values(' + str(entity.date)+','+ str(entity.advantages)+')')
+                c.execute("insert into _Comment values('" + str(entity.date)+"','"+ str(entity.advantages)+"')")
+                c.commit()
             else :
-                c.execute('update _Comment set date=' +str(entity.date)+', advantages='+ str(entity.advantages)+', disadvantages='+ str(entity.disadvantages)+', conclusion='+ str(entity.conclusion)+', userId='+ str(entity.userId)+', hotelId='+ str(entity.hotelId)+' where id='+ str(entity.id))
-            return Comment(entity.id, entity.date, entity.advantages)
+                c.execute("update _Comment set date='" +str(entity.date)+"', advantages="+ str(entity.advantages)+", disadvantages='"+ str(entity.disadvantages)+"', conclusion='"+ str(entity.conclusion)+"', userId="+ str(entity.userId)+', hotelId='+ str(entity.hotelId)+' where id='+ str(entity.id))
+                c.commit()
+            return Comment(entity.id, entity.date, entity.advantages, entity.disadvantages, entity.conclusion, entity.userId, entity.hotelId)
         except:
             print("There was an error")
             return None

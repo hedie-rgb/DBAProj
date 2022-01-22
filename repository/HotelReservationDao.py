@@ -38,6 +38,7 @@ class HotelReservationDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Hotel_Reservation where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class HotelReservationDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Hotel_Reservation where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class HotelReservationDao(RepositoryInterface):
             c.execute('select * from Hotel_Reservation where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into HotelReservation values(' +str(entity.checkInDate)+',' +str(entity.checkOutDate)+',' +str(entity.date)+','+str(entity.baby)+','+str(entity.adult)+','+str(entity.child)+','+str(entity.userId)+','+str(entity.roomCode)+')')
+                c.execute("insert into HotelReservation values('" +str(entity.checkInDate)+"','" +str(entity.checkOutDate)+"','" +str(entity.date)+"',"+str(entity.baby)+','+str(entity.adult)+','+str(entity.child)+','+str(entity.userId)+','+str(entity.roomCode)+')')
+                c.commit()
             else :
-                c.execute('update HotelReservation set checkin_date=' +str(entity.checkInDate)+', checkout_date='+ str(entity.checkOutDate)+', _date='+ str(entity.date)+', number_of_baby='+ str(entity.ubaby)+', number_of_adult='+ str(entity.adult)+', number_of_children='+ str(entity.child)+', Userid='+ str(entity.userId)+', Roomcode='+ str(entity.roomCode)+' where id='+ str(entity.id))
+                c.execute("update HotelReservation set checkin_date='" +str(entity.checkInDate)+"', checkout_date='"+ str(entity.checkOutDate)+"', _date='"+ str(entity.date)+', number_of_baby='+ str(entity.ubaby)+', number_of_adult='+ str(entity.adult)+', number_of_children='+ str(entity.child)+', Userid='+ str(entity.userId)+', Roomcode='+ str(entity.roomCode)+' where id='+ str(entity.id))
+                c.commit()
             return HotelReservation(entity.id, entity.checkInDate, entity.checkInDate, entity.date, entity.baby, entity.adult, entity.child, entity.userId, entity.roomCode)
         except:
             print("There was an error")

@@ -38,6 +38,7 @@ class BetweenTerminalsDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from between_terminals where BusReservationTransportnumber=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class BetweenTerminalsDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from between_terminals where BusReservationTransportnumber=' + str(id))
+                   c.commit()
             return True
         except:
             return False

@@ -38,6 +38,7 @@ class MultiWayOverseasDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from MultiWay_Overseas where MultiWayid=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class MultiWayOverseasDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from MultiWay_Overseas where MultiWayid=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -56,8 +58,10 @@ class MultiWayOverseasDao(RepositoryInterface):
             i = c.fetchall()
             if len(i) == 0:
                 c.execute('insert into MultiWay_Overseas values(' + str(entity.MultiWayid)+',' +str(entity.OverseasFlightTransportnumber)+')')
+                c.commit()
             else :
                 c.execute('update MultiWay_Overseas set OverseasFlightTransportnumber=' +str(entity.OverseasFlightTransportnumber)+' where MultiWayid='+ str(entity.id))
+                c.commit()
                 return MultiWayOverseas(entity.MultiWayid, entity.OverseasFlightTransportnumber)
         except:
             print("There was an error")

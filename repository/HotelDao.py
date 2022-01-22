@@ -38,6 +38,7 @@ class HotelDao(RepositoryInterface):
         try:
             c=getConn()
             c.execute('delete from Hotel where id=' + str(id))
+            c.commit()
             return True
         except:
             return False
@@ -46,6 +47,7 @@ class HotelDao(RepositoryInterface):
             c=getConn()
             for id in ids:
                    c.execute('delete from Hotel where id=' + str(id))
+                   c.commit()
             return True
         except:
             return False
@@ -55,9 +57,11 @@ class HotelDao(RepositoryInterface):
             c.execute('select * from Hotel where id=' + str(entity.id))
             i = c.fetchall()
             if len(i) == 0:
-                c.execute('insert into Hotel values('  +str(entity.name)+',' +str(entity.about)+',' +str(entity.stars)+',' +str(entity.accomodationType)+',' +str(entity.rules)+','+ str(entity.cityId)+')')
+                c.execute("insert into Hotel values(' " +str(entity.name)+"','" +str(entity.about)+"'," +str(entity.stars)+",'" +str(entity.accomodationType)+"','" +str(entity.rules)+"',"+ str(entity.cityId)+')')
+                c.commit()
             else :
-                c.execute('update Hotel set name=' +str(entity.name)+', about='+ str(entity.about)+', stars='+ str(entity.stars)+', accomondation_type='+ str(entity.accomodationType)+', rules='+ str(entity.rules)+', cityId='+ str(entity.cityId)+' where id='+ str(entity.id))
+                c.execute("update Hotel set name=' "+str(entity.name)+"', about='"+ str(entity.about)+', stars='+ str(entity.stars)+", accomondation_type='"+ str(entity.accomodationType)+"', rules='"+ str(entity.rules)+"', cityId="+ str(entity.cityId)+' where id='+ str(entity.id))
+                c.commit()
             return Hotel(entity.id, entity.name,entity.about, entity.stars, entity.accomodationType,entity.rules, entity.cityId)
         except:
             print("There was an error")
