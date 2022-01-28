@@ -1,14 +1,10 @@
 import datetime
-from fnmatch import fnmatchcase
 from random import randint
-from time import sleep
 from tkinter import *
-
-from matplotlib.pyplot import get
 from Connection import getConn
-from User import User
-from UserDao import UserDao
 
+
+isLogged = False
 win = Tk()
 win.title("Alibaba")
 pad = 3
@@ -17,36 +13,83 @@ win.geometry("{0}x{1}+0+0".format(
 global frame
 frame = Frame(win)
 frame.pack(side="top", expand=True, fill="both")
+f = Frame(win)
+f.pack(side="top", expand=True, fill="both")
 global conn
 conn = getConn()
 
 def profile():
     pass
-def domestic():
-    pass
 def overseas():
-    pass
+    clearf()
+    yy = 30
+    xx = 28
+    conn.execute("select fromCountry, toCountry, fromCity, toCity, company, price, fromDate from overseaFlight")
+    ino = conn.fetchall()
+    Label(f,width=20, height=1, text="From country" , bg="orange").place(x=28,y=0)
+    Label(f,width=20, height=1, text="To country", bg="orange").place(x=178,y=0)
+    Label(f,width=20, height=1, text="From city" , bg="orange").place(x=328,y=0)
+    Label(f,width=20, height=1, text="To city" , bg="orange").place(x=478,y=0)
+    Label(f,width=20, height=1, text="Company" , bg="orange").place(x=628,y=0)
+    Label(f,width=20, height=1, text="Price" , bg="orange").place(x=778,y=0)
+    Label(f,width=20, height=1, text="Date" , bg="orange").place(x=928,y=0)
+    for i in range(len(ino)):
+        for j in range(len(ino[0])):
+            e = Entry(f, width=24, fg='blue')
+            e.place(x = xx + j*150, y = yy + i*30)
+            e.insert(END, ino[i][j])
 def bus():
-    pass
+    clearf()
+    yy = 30
+    xx = 28
+    conn.execute("select fromCity, toCity, company, price, fromDate from buses")
+    ino = conn.fetchall()
+    Label(f,width=20, height=1, text="From" , bg="orange").place(x=28,y=0)
+    Label(f,width=20, height=1, text="To", bg="orange").place(x=178,y=0)
+    Label(f,width=20, height=1, text="Company" , bg="orange").place(x=328,y=0)
+    Label(f,width=20, height=1, text="Price" , bg="orange").place(x=478,y=0)
+    Label(f,width=20, height=1, text="Date" , bg="orange").place(x=628,y=0)
+    for i in range(len(ino)):
+        for j in range(len(ino[0])):
+            e = Entry(f, width=24, fg='blue')
+            e.place(x = xx + j*150, y = yy + i*30)
+            e.insert(END, ino[i][j])
 def hotel():
     pass
 
 def logged_in():
+    global name
     conn.execute("select first_name, last_name from _user where id =" + str(idm))
     i = conn.fetchall()
+    name = i[0][0] + " " + i[0][1]
     clear_frame()
-    Label(frame,width="218", height=2, text="Welcome! " + i[0][0] + " " + i[0][1], bg="orange").pack()
+    clearf()
+    Label(frame,width="218", height=2, text="Welcome! " + name, bg="orange").pack()
     Button(frame, text="Domestic Flights", width=50, height=1, bg="orange",command=domestic).place(x=28,y=60)
     Button(frame, text="Oversea Flights", width=50, height=1, bg="orange",command=overseas).place(x=398,y=60)
     Button(frame, text="Bus", width=50, height=1, bg="orange",command=bus).place(x=768,y=60)
     Button(frame, text="Hotel", width=50, height=1, bg="orange",command=hotel).place(x=1138,y=60)
-    Button(frame, text="Edit", width=10, height=1, bg="orange",command=profile).place(x=1400,y=700)
-    Button(frame, text="Logout", width=10, height=1, bg="orange",command=main_page).place(x=1400,y=750)
+    Button(f, text="Edit", width=10, height=1, bg="orange",command=profile).place(x=1400,y=200)
+    Button(f, text="Logout", width=10, height=1, bg="orange",command=main_page).place(x=1400,y=250)
 
+def domestic():
+    clearf()
+    yy = 30
+    xx = 28
+    conn.execute("select fromCity, toCity, company, price, fromDate from domesticFlights")
+    ino = conn.fetchall()
+    Label(f,width=20, height=1, text="From" , bg="orange").place(x=28,y=0)
+    Label(f,width=20, height=1, text="To", bg="orange").place(x=178,y=0)
+    Label(f,width=20, height=1, text="Company" , bg="orange").place(x=328,y=0)
+    Label(f,width=20, height=1, text="Price" , bg="orange").place(x=478,y=0)
+    Label(f,width=20, height=1, text="Date" , bg="orange").place(x=628,y=0)
+    for i in range(len(ino)):
+        for j in range(len(ino[0])):
+            e = Entry(f, width=24, fg='blue')
+            e.place(x = xx + j*150, y = yy + i*30)
+            e.insert(END, ino[i][j])
 def Login():
     global idm
-    global isLogged
-    isLogged = False
     uname=username.get()
     pwd=password.get()
     if uname=='' or pwd=='':
@@ -57,7 +100,6 @@ def Login():
             conn.execute("select _password, id from _user where MobileNumber ='" + uname + "'")
             i = conn.fetchall()
             if i[0][0] == pwd :
-                isLogged = True
                 idm = i[0][1]
                 logged_in()
             else:
@@ -85,11 +127,16 @@ def clear_frame():
    for widgets in frame.winfo_children():
       widgets.destroy()
 
+def clearf():
+    for widgets in f.winfo_children():
+        widgets.destroy()
+
 def add_user():
     global idm
     try:
         conn.execute("insert into _user (MobileNumber, first_name, last_name, _password, registration_date) values ('" + mobile.get() +"','" + fname.get()+"','" + lname.get() + "','" + pd.get() + "','" + str(datetime.datetime.now().date()) + "')")
         c.destroy()
+        conn.commit()
         conn.execute("select id from _user where MobileNumber ='" + mobile.get() + "'")
         i = conn.fetchall()
         idm = i[0][0]
@@ -110,6 +157,7 @@ def check():
     pd = StringVar()
     if int(code.get()) == num:
         clear_frame()
+        clearf()
         Label(frame,width="218", height=2, text="Please enter details below to create a new account", bg="orange").pack()
         Label(frame, text="First name * ").place(x=20,y=40)
         Entry(frame, textvariable=fname, width=50).place(x=90,y=42)
@@ -161,6 +209,7 @@ def new_account():
     global mobile
     global sdc
     clear_frame()
+    clearf()
     Label(frame,width="218", height=2, text="Please enter your mobile number", bg="orange").pack()
     mobile = StringVar()
     message=StringVar()
@@ -176,6 +225,7 @@ def load_login():
     global username
     global password
     clear_frame()
+    clearf()
     Label(frame,width="218", height=2, text="Please enter details below to login", bg="orange").pack()
     username = StringVar()
     password = StringVar()
@@ -190,6 +240,7 @@ def load_login():
 
 def main_page():
     clear_frame()
+    clearf()
     global login
     global account
     login = Button(frame, text="Login", width=218, height=2, bg="orange",command=load_login)
